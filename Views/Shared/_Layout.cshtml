@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kevin Li - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    @RenderSection("mystyle", required: false)
+    <style>
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #4E5851;
+            color: white;
+            text-align: center;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Fredoka+One|Roboto" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:#4E5851">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">UW k348li</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/Blog">Blog</a></li>
+                    <li><a href="/Home/Projects">Projects</a></li>
+                    <li><a href="/Home/About">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <div class="panel center col-md-12" style="background-color:#eeeeee">
+        @RenderBody()
+        </div>
+    </div>
+    <div class="footer">
+        <p style="padding-top:6px">&copy; @DateTime.Now.Year - Kevin Li - k348li</p>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

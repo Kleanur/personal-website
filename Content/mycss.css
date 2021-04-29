@@ -1,0 +1,21 @@
+﻿.navbar-brand {
+    color: white !important;
+    font-family: 'Arvo', serif;
+}
+
+    .navbar-brand:hover {
+        color: #BA0C2E !important;
+    }
+
+.navbar-nav > li > a {
+    color: white !important;
+    font-family: 'Arvo', serif;
+}
+
+    .navbar-nav > li > a:hover {
+        color: #BA0C2E !important;
+    }
+
+.panel {
+    font-family: 'Roboto', sans-serif;
+}
