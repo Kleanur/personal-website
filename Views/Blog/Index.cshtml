@@ -1,10 +1,41 @@
-﻿
+﻿@using System.Data
+@using MyDefault.Controllers
 @{
     ViewBag.Title = "Blog";
+    DataTable categories = DataController.GetData("SELECT * FROM BlogCategory");
+    string path = HttpContext.Current.Server.MapPath("~/App_Data/Queries/Blogs.sql");
+    string sql = System.IO.File.ReadAllText(path);
+    sql = sql.Replace("SELECT @pCategoryID", "0");
+    DataTable blogs = DataController.GetData(sql);
 }
 
+<table style="width:100%">
+    <tr>
+        <td></td>
+        <td width="100px"></td>
+        <td width="32px"></td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            @for (int r = 0; r < categories.Rows.Count; ++r)
+            {
+                if (r == 0)
+                {<b>@(categories.Rows[r]["CategoryName"])</b>}
+                else
+                {<b>, @(categories.Rows[r]["CategoryName"])</b>}
+            }
+        </td>
+    </tr>
+    @for (int r = 0; r < blogs.Rows.Count; ++r)
+    {
+        <tr>
+            <td>@(blogs.Rows[r]["BlogTitle"])</td>
+            <td>@(((DateTime)blogs.Rows[r]["BlogDate"]).ToString("MMM/dd/yyyy"))</td>
+            <td><i class="glyphicon glyphicon-chevron-down"></i></td>
+        </tr>
+    }
+</table>
 
-<h2>Index</h2>
 
 @section scripts
 {
@@ -12,5 +43,5 @@
         $(document).ready(function () {
             alert("ready!");
         });
-    </script> 
+    </script>
 }
