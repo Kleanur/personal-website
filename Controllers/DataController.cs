@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -25,12 +26,19 @@ namespace MyDefault.Controllers
             }
         }
 
-
-        public ActionResult GetBlog(string qfilename, int categoryID)
+        public ActionResult GetBlog(string qfilename)
         {
-            ViewBag.Message = "Your blog page";
+            string path = AppDomain.CurrentDomain.BaseDirectory + qfilename;
+            string content = System.IO.File.ReadAllText(path);
 
-            return View();
+            return Content(content, "text/html");
+
+            //DataTable data = GetData("SELECT * FROM Blog");
+            //string jsonString = JsonConvert.SerializeObject(data);
+            //return Content(jsonString, "application/json");
+
+
+            //return Content("{\"C1\": 1, \"C2\": 2}", "application/json");
         }
     }
 }

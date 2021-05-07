@@ -129,6 +129,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Blogs\blank.html" />
+    <Content Include="App_Data\Blogs\blog2.html" />
+    <Content Include="App_Data\Queries\Blogs.sql" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -169,8 +172,6 @@
     <Content Include="Views\Blog\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\Blogs\" />
-    <Folder Include="App_Data\Queries\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Data\" />
   </ItemGroup>

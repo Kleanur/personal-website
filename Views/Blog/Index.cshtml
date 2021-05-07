@@ -5,9 +5,18 @@
     DataTable categories = DataController.GetData("SELECT * FROM BlogCategory");
     string path = HttpContext.Current.Server.MapPath("~/App_Data/Queries/Blogs.sql");
     string sql = System.IO.File.ReadAllText(path);
-    sql = sql.Replace("SELECT @pCategoryID", "0");
+    string categoryID = Request.Params["blogCategoryID"];
+    if (categoryID == null) { categoryID = "0"; }
+    sql = sql.Replace("SELECT @pCategoryID", categoryID);
     DataTable blogs = DataController.GetData(sql);
 }
+<style>
+    .glyphicon-chevron-down:hover,
+    .glyphicon-chevron-up:hover {
+        cursor:pointer;
+        color: #BA0C2E !important;
+    }
+</style>
 
 <table style="width:100%">
     <tr>
@@ -16,13 +25,13 @@
         <td width="32px"></td>
     </tr>
     <tr>
-        <td colspan="3">
+        <td colspan="3" style="border-bottom:solid 1px red">
             @for (int r = 0; r < categories.Rows.Count; ++r)
             {
                 if (r == 0)
-                {<b>@(categories.Rows[r]["CategoryName"])</b>}
+                {<b style="cursor:pointer" onclick="onCategoryClicked(@(categories.Rows[r]["BlogCategoryID"]))">@(categories.Rows[r]["CategoryName"])</b>}
                 else
-                {<b>, @(categories.Rows[r]["CategoryName"])</b>}
+                {<b style="cursor:pointer" onclick="onCategoryClicked(@(categories.Rows[r]["BlogCategoryID"]))">, @(categories.Rows[r]["CategoryName"])</b>}
             }
         </td>
     </tr>
@@ -31,7 +40,19 @@
         <tr>
             <td>@(blogs.Rows[r]["BlogTitle"])</td>
             <td>@(((DateTime)blogs.Rows[r]["BlogDate"]).ToString("MMM/dd/yyyy"))</td>
-            <td><i class="glyphicon glyphicon-chevron-down"></i></td>
+            <td valign="middle" onclick="onExpandIconClicked(@(blogs.Rows[r]["BlogID"]), '@(blogs.Rows[r]["FileName"])')">
+                <i class="glyphicon glyphicon-chevron-down chevron" id="icon@(blogs.Rows[r]["BlogID"])"></i>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div id="blogID@(blogs.Rows[r]["BlogID"])" style="width:100%; display:none; border:dashed 1px red; border-radius: 5px"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="border-bottom:solid 1px #cccccc">
+                <i>@(blogs.Rows[r]["Categories"])</i>
+            </td>
         </tr>
     }
 </table>
@@ -40,8 +61,33 @@
 @section scripts
 {
     <script>
+        "use strict";
+        function onExpandIconClicked(blogID, fileName) {
+            if ($("#blogID" + blogID).css("display") == "none") {
+                $.ajax({
+                    url: "/Data/GetBlog",
+                    dataType: "html",
+                    data: { qfilename: "App_Data\\Blogs\\" + fileName },
+                    method: "POST",
+                    success: function (result) {
+                        $("#blogID" + blogID).html(result);
+                        $("#icon" + blogID).toggleClass("glyphicon-chevron-down glyphicon-chevron-up");
+                        $("#blogID" + blogID).show(400);
+                    }
+                });
+            } else {
+                $("#icon" + blogID).toggleClass("glyphicon-chevron-down glyphicon-chevron-up");
+                $("#blogID" + blogID).hide(400);
+            }
+            
+        }
+
+        function onCategoryClicked(blogCategoryID) {
+            window.location = "?blogCategoryID=" + blogCategoryID;
+        }
+
         $(document).ready(function () {
-            alert("ready!");
+            
         });
     </script>
 }
