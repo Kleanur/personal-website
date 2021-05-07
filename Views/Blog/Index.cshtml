@@ -26,13 +26,18 @@
     </tr>
     <tr>
         <td colspan="3" style="border-bottom:solid 1px red">
-            @for (int r = 0; r < categories.Rows.Count; ++r)
-            {
-                if (r == 0)
-                {<b style="cursor:pointer" onclick="onCategoryClicked(@(categories.Rows[r]["BlogCategoryID"]))">@(categories.Rows[r]["CategoryName"])</b>}
-                else
-                {<b style="cursor:pointer" onclick="onCategoryClicked(@(categories.Rows[r]["BlogCategoryID"]))">, @(categories.Rows[r]["CategoryName"])</b>}
-            }
+            <i>Tags:</i>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-default btn-xs" id="tag0" onclick="onCategoryClicked(0)">
+                    <input type="radio" name="tags" autocomplete="off">All
+                </label>
+                @for (int r = 0; r < categories.Rows.Count; ++r)
+                {
+                    <label class="btn btn-default btn-xs" id="tag@(categories.Rows[r]["BlogCategoryID"])" onclick="onCategoryClicked(@(categories.Rows[r]["BlogCategoryID"]))">
+                        <input type="radio" name="tags" autocomplete="off">@(categories.Rows[r]["CategoryName"])
+                    </label>
+                }
+            </div>
         </td>
     </tr>
     @for (int r = 0; r < blogs.Rows.Count; ++r)
@@ -79,7 +84,7 @@
                 $("#icon" + blogID).toggleClass("glyphicon-chevron-down glyphicon-chevron-up");
                 $("#blogID" + blogID).hide(400);
             }
-            
+
         }
 
         function onCategoryClicked(blogCategoryID) {
@@ -87,7 +92,7 @@
         }
 
         $(document).ready(function () {
-            
+            $("#tag" + @categoryID).button("toggle");
         });
     </script>
 }
